@@ -18,7 +18,7 @@ import {
   onClickCodeButton,
   onClickIframeButton,
   onClickImageButton,
-  onClickSortButton,
+  onClickSortingTaskButton,
 } from "./actions";
 
 interface IPlusMenuProps {
@@ -122,7 +122,7 @@ class PlusMenu extends PureComponent<IPlusMenuProps, IPlusMenuState> {
         {this.renderBlockButton(
           faSort,
           "Sortieraufgabe einfügen",
-          onClickSortButton,
+          onClickSortingTaskButton,
         )}
         <DashboardModal
           uppy={this.uppy}
