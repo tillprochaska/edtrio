@@ -2,10 +2,19 @@ import React from "react";
 import EditView from "./EditView";
 import ReadView from "./ReadView";
 
+import { ITermsList } from "./interfaces";
+
 interface IProps {
   attributes: object,
   children: [ React.Component ],
-  readOnly: boolean
+  readOnly: boolean,
+  editor: any,
+  node: any,
+  parent: any,
+};
+
+interface IState {
+  terms: ITermsList,
 };
 
 /*
@@ -14,17 +23,75 @@ interface IProps {
  * contents or values. Instead, they’ll have to use the user interface
  * provided by this component.
  */
-export default class SortingTaskNode extends React.Component<IProps, {}> {
+export default class SortingTaskNode extends React.Component<IProps, IState> {
+
+  constructor(props: IProps) {
+    super(props);
+
+    const defaultState = {
+      terms: [ { term: 'Term A', description: 'Description A' } ],
+    };
+
+    this.state = this.loadState() || defaultState;
+  }
 
   public render() {
     const { attributes, readOnly } = this.props;
-    const ViewComponent = readOnly ? ReadView : EditView;
 
     return (
-      <div {...attributes}>
-        <ViewComponent />
+      <div onClick={this.clickHandler()} {...attributes} >
+        { readOnly
+          ? <ReadView terms={this.state.terms} />
+          : <EditView terms={this.state.terms} onEdit={this.editHandler()} />
+        }
       </div>
     );
+  }
+
+  /*
+   * Returns a click handler to all events for this component.
+   * By default Slate will set focus back to the editor when
+   * clicking on a void block. This would remove focus from any
+   * form element in this component, so we just stop click events
+   * from bubbling up.
+   */
+  protected clickHandler() {
+    return (event: React.MouseEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+    };
+  }
+
+  /*
+   * Returns an event handler (and makes sure that the context
+   * is correctly bound).
+   */
+  protected editHandler() {
+    return (terms: ITermsList) => {
+      this.setState({ terms }, this.persistState);
+    };
+  }
+
+  /*
+   * This method saves the current (and possibly updated)
+   * state in the block’s `data` property. This is important,
+   * as the component state itself won’t be persistet.
+   */
+  protected persistState() {
+    this.props.editor.setNodeByKey(
+      this.props.node.key, {
+      data: {
+        state: this.state,
+      },
+    });
+  }
+
+  /* 
+   * Loads the state from the block’s `data` property. Slate
+   * stores data in immutable data structures, so we need to
+   * convert this back to a plain JS object.
+   */
+  protected loadState(): any {
+    return this.props.node.data.get("state");
   }
 
 }

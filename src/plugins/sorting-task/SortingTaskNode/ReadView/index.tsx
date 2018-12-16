@@ -1,11 +1,23 @@
 import React from "react";
+import { ITermsList } from "../interfaces";
 
-export default class ReadView extends React.PureComponent {
+interface IProps {
+  terms: ITermsList,
+};
+
+export default class ReadView extends React.PureComponent<IProps> {
 
   public render() {
-    return (
-      <div>Read View</div>
-    );
+    const terms = this.props.terms.map((term, index) => {
+      return (
+        <React.Fragment key={index}>
+          <dt>{term.term}</dt>
+          <dd>{term.description}</dd>
+        </React.Fragment>
+      );
+    });
+
+    return <dl>{terms}</dl>;
   }
 
 }
