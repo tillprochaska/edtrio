@@ -41,9 +41,8 @@ export default class SortingTaskNode extends React.Component<IProps, IState> {
 
     return (
       <div
-        className={ `plugin-wrapper ${ isFocused && 'selected' }` }
+        className={`plugin-wrapper ${ isFocused && 'selected' }`}
         onClick={this.clickHandler()}
-        onFocus={this.focusHandler()}
         {...attributes}
        >
         { readOnly
@@ -55,30 +54,21 @@ export default class SortingTaskNode extends React.Component<IProps, IState> {
   }
 
   /*
-   * Returns a click handler to all events for this component.
-   * By default Slate will set focus back to the editor when
-   * clicking on a void block. This would remove focus from any
-   * form element in this component, so we just stop click events
-   * from bubbling up.
+   * Returns an event handler to handle all click events on this
+   * component. By default, clicking on a void block moves focus
+   * to the block clicked on. Thus, any inputs inside the void
+   * block wouldn’t be focusable. To solve this, we simply stop
+   * event propagation.
    */
   protected clickHandler() {
-    return (event: React.MouseEvent<HTMLDivElement>) => {
+    return (event: React.MouseEvent<HTMLElement>) => {
       event.stopPropagation();
     };
   }
 
   /*
-   * Returns a focus handler. By default, Slate won’t focus the
-   * sorting task block when the user focuses element inside of 
-   * it, so we need to recreate this behaviour manually.
-   */
-  protected focusHandler() {
-    return (event: React.FocusEvent<HTMLDivElement>) => {};
-  }
-
-  /*
-   * Returns an event handler (and makes sure that the context
-   * is correctly bound).
+   * Returns an event handler to handle edit events from the
+   * `EditView` subcomponent.
    */
   protected editHandler() {
     return (terms: ITermsList) => {

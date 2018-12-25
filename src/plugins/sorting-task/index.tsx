@@ -1,5 +1,4 @@
 import React from "react";
-import { Editor } from "slate";
 import SortingTaskNode from "./SortingTaskNode";
 
 export default () => {
@@ -11,7 +10,7 @@ export default () => {
 }
 
 const RenderPlugin = {
-  renderNode(props: any, editor: Editor, next: () => void) {
+  renderNode(props: any, editor: any, next: () => void) {
     if(props.node.type === "sortingTask") {
       return <SortingTaskNode {...props} />;
     }
