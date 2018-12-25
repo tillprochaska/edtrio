@@ -8,6 +8,7 @@ interface IProps {
   attributes: object,
   children: [ React.Component ],
   readOnly: boolean,
+  isFocused: boolean,
   editor: any,
   node: any,
   parent: any,
@@ -36,10 +37,15 @@ export default class SortingTaskNode extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { attributes, readOnly } = this.props;
+    const { attributes, readOnly, isFocused } = this.props;
 
     return (
-      <div onClick={this.clickHandler()} {...attributes} >
+      <div
+        className={ `plugin-wrapper ${ isFocused && 'selected' }` }
+        onClick={this.clickHandler()}
+        onFocus={this.focusHandler()}
+        {...attributes}
+       >
         { readOnly
           ? <ReadView terms={this.state.terms} />
           : <EditView terms={this.state.terms} onEdit={this.editHandler()} />
@@ -59,6 +65,15 @@ export default class SortingTaskNode extends React.Component<IProps, IState> {
     return (event: React.MouseEvent<HTMLDivElement>) => {
       event.stopPropagation();
     };
+  }
+
+  /*
+   * Returns a focus handler. By default, Slate won’t focus the
+   * sorting task block when the user focuses element inside of 
+   * it, so we need to recreate this behaviour manually.
+   */
+  protected focusHandler() {
+    return (event: React.FocusEvent<HTMLDivElement>) => {};
   }
 
   /*
