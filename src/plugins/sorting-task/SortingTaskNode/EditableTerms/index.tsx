@@ -1,6 +1,6 @@
 import React from "react";
 import { ITerm, ITermsList } from "../interfaces";
-import EditableTermItem from "./EditableTermsItem";
+import EditableTermsItem from "./EditableTermsItem";
 
 interface IProps {
   terms: ITermsList,
@@ -12,7 +12,7 @@ export default class EditableTerms extends React.PureComponent<IProps> {
   public render() {
     const rows = this.getRows().map((term, index) => {
       return (
-        <EditableTermItem
+        <EditableTermsItem
           key={index}
           term={term}
           onEdit={this.editHandler(index)}
