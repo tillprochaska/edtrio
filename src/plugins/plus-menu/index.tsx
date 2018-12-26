@@ -20,17 +20,20 @@ const addPlusMenuBesideEditor = {
     const { isFocused } = editor.value.selection;
     const focusedBlock = editor.value.focusBlock;
 
+    if(!isFocused || !focusedBlock) {
+      return next();
+    }
+
     // If the focused block is a void block, users won’t
     // be able to edit its content or add children, thus
-    // the plus menu would be useless.
+    // the plus menu would be useless. Also, there are
+    // some block types where the plus menu should not be
+    // displayed, e. g. the title block.
     const isVoidBlock = editor.isVoid(focusedBlock);
-
-    // Also, there are some block types where the plus menu
-    // should not be displayed, e. g. the title block.
     const ignoredBlocks = ['title'];
     const isIgnoredBlock = ignoredBlocks.includes(focusedBlock.type);
 
-    if(!isFocused || !focusedBlock || isVoidBlock || isIgnoredBlock) {
+    if(isVoidBlock || isIgnoredBlock) {
       return next();
     }
 
