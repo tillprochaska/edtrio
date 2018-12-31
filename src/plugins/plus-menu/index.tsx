@@ -30,6 +30,9 @@ const addPlusMenuBesideEditor = {
     // some block types where the plus menu should not be
     // displayed, e. g. the title block.
     const isVoidBlock = editor.isVoid(focusedBlock);
+
+    // TODO refactor this to specify wheather a block
+    // should have the menu or not directly inside the component
     const ignoredBlocks = ['title'];
     const isIgnoredBlock = ignoredBlocks.includes(focusedBlock.type);
 

@@ -27,7 +27,7 @@ export default class SortingTaskNode extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
-    // This is only a temporary solution as long as there is no
+    // TODO: This is only a temporary solution as long as there is no
     // interface to actually add new terms.
     const defaultState = {
       terms: [ { term: 'Term A', description: 'Description A' } ],
@@ -90,7 +90,7 @@ export default class SortingTaskNode extends React.Component<IProps, IState> {
     });
   }
 
-  /* 
+  /*
    * Loads the state from the block’s `data` property.
    */
   protected loadState() {
