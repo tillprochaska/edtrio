@@ -2,7 +2,7 @@ import React from "react";
 import EditView from "./EditView";
 import ReadView from "./ReadView";
 
-import { ILearningItemsList } from "./interfaces";
+import { ILearningItems } from "./interfaces";
 
 interface IProps {
   attributes: object,
@@ -13,7 +13,7 @@ interface IProps {
 };
 
 interface IState {
-  learningItems: ILearningItemsList,
+  learningItems: ILearningItems,
 };
 
 /*
@@ -71,7 +71,7 @@ export default class SortingTaskNode extends React.Component<IProps, IState> {
    * `EditView` subcomponent.
    */
   protected editHandler() {
-    return (learningItems: ILearningItemsList) => {
+    return (learningItems: ILearningItems) => {
       this.setState({ learningItems }, this.persistState);
     };
   }

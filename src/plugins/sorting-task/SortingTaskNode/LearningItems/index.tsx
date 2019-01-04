@@ -1,10 +1,10 @@
 import React from "react";
-import { ILearningItem, ILearningItemsList } from "../interfaces";
+import { ILearningItem, ILearningItems } from "../interfaces";
 import LearningItem from "./LearningItem";
 
 interface IProps {
-  learningItems: ILearningItemsList,
-  onEdit: (updatedLearningItems: ILearningItemsList) => void,
+  learningItems: ILearningItems,
+  onEdit: (updatedLearningItems: ILearningItems) => void,
 }
 
 export default class LearningItems extends React.PureComponent<IProps> {
@@ -41,7 +41,7 @@ export default class LearningItems extends React.PureComponent<IProps> {
    * This way, users are able to add a new learningItem to the list
    * without the need to manually append a row.
    */
-  protected getRows(): ILearningItemsList {
+  protected getRows(): ILearningItems {
     const rows = this.props.learningItems;
     const lastRow = rows[rows.length - 1];
     const lastRowIsEmpty = lastRow && !lastRow.term && !lastRow.description;
@@ -65,8 +65,8 @@ export default class LearningItems extends React.PureComponent<IProps> {
       // the list in order to allow users to add new learningItems,
       // we need to remove it here in order to get the actual
       // list of non-empty learningItems.
-      const lastTerm = learningItems[learningItems.length - 1];
-      if(lastTerm && !lastTerm.term && !lastTerm.description) {
+      const lastLearningItem = learningItems[learningItems.length - 1];
+      if(lastLearningItem && !lastLearningItem.term && !lastLearningItem.description) {
         learningItems.pop();
       }
 

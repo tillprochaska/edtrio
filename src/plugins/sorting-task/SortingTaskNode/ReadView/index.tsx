@@ -1,8 +1,8 @@
 import React from "react";
-import { ILearningItemsList } from "../interfaces";
+import { ILearningItems } from "../interfaces";
 
 interface IProps {
-  learningItems: ILearningItemsList,
+  learningItems: ILearningItems,
 };
 
 export default class ReadView extends React.PureComponent<IProps> {

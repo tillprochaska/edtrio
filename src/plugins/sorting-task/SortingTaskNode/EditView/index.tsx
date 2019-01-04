@@ -1,10 +1,10 @@
 import React from "react";
-import { ILearningItemsList } from "../interfaces";
+import { ILearningItems } from "../interfaces";
 import LearningItems from "../LearningItems";
 
 interface IProps {
-  learningItems: ILearningItemsList,
-  onEdit: (updatedTerms: ILearningItemsList) => void,
+  learningItems: ILearningItems,
+  onEdit: (updatedTerms: ILearningItems) => void,
 };
 
 export default class EditView extends React.PureComponent<IProps> {
