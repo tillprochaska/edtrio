@@ -1,10 +1,10 @@
 import React from "react";
-import EditableTerms from "../EditableTerms";
-import { ITermsList } from "../interfaces";
+import { ILearningItemsList } from "../interfaces";
+import LearningItems from "../LearningItems";
 
 interface IProps {
-  terms: ITermsList,
-  onEdit: (updatedTerms: ITermsList) => void,
+  learningItems: ILearningItemsList,
+  onEdit: (updatedTerms: ILearningItemsList) => void,
 };
 
 export default class EditView extends React.PureComponent<IProps> {
@@ -13,9 +13,9 @@ export default class EditView extends React.PureComponent<IProps> {
     return (
       <React.Fragment>
         Welche Begriffe sollen deine Schüler*innen erklären?
-        <EditableTerms
-          terms={this.props.terms}
-          onEdit={this.props.onEdit}
+        <LearningItems
+            learningItems={this.props.learningItems}
+            onEdit={this.props.onEdit}
         />
       </React.Fragment>
     );

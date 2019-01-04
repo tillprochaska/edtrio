@@ -1,12 +1,12 @@
 import React from "react";
-import { ITerm } from "../../interfaces";
+import { ILearningItem } from "../../interfaces";
 
 interface IProps {
-  term: ITerm,
-  onEdit: (updateTerm: ITerm) => void,
+  learningItem: ILearningItem,
+  onEdit: (updateLearningItem: ILearningItem) => void,
 };
 
-export default class EditableTermsItem extends React.PureComponent<IProps> {
+export default class LearningItem extends React.PureComponent<IProps> {
 
   public render() {
     return (
@@ -14,7 +14,7 @@ export default class EditableTermsItem extends React.PureComponent<IProps> {
         <td>
           <input
             type="text"
-            value={this.props.term.term}
+            value={this.props.learningItem.term}
             onChange={this.editHandler('term')}
             placeholder="Gib einen Begriff ein…"
           />
@@ -22,7 +22,7 @@ export default class EditableTermsItem extends React.PureComponent<IProps> {
         <td>
           <input
             type="text"
-            value={this.props.term.description}
+            value={this.props.learningItem.description}
             onChange={this.editHandler('description')}
             placeholder="Gib eine Erklärung ein…"
           />
@@ -33,9 +33,9 @@ export default class EditableTermsItem extends React.PureComponent<IProps> {
 
   protected editHandler(key: string) {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
-      const updatedTerm = this.props.term;
-      updatedTerm[key] = event.target.value;
-      this.props.onEdit(updatedTerm);
+      const updatedLearningItem = this.props.learningItem;
+      updatedLearningItem[key] = event.target.value;
+      this.props.onEdit(updatedLearningItem);
     };
   }
 

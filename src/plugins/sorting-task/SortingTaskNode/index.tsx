@@ -2,7 +2,7 @@ import React from "react";
 import EditView from "./EditView";
 import ReadView from "./ReadView";
 
-import { ITermsList } from "./interfaces";
+import { ILearningItemsList } from "./interfaces";
 
 interface IProps {
   attributes: object,
@@ -13,7 +13,7 @@ interface IProps {
 };
 
 interface IState {
-  terms: ITermsList,
+  learningItems: ILearningItemsList,
 };
 
 /*
@@ -28,9 +28,9 @@ export default class SortingTaskNode extends React.Component<IProps, IState> {
     super(props);
 
     // TODO: This is only a temporary solution as long as there is no
-    // interface to actually add new terms.
+    // interface to actually add new learningItems.
     const defaultState = {
-      terms: [ { term: 'Term A', description: 'Description A' } ],
+      learningItems: [ { term: 'Term A', description: 'Description A' } ],
     };
 
     this.state = this.loadState() || defaultState;
@@ -46,8 +46,8 @@ export default class SortingTaskNode extends React.Component<IProps, IState> {
         {...attributes}
        >
         { readOnly
-          ? <ReadView terms={this.state.terms} />
-          : <EditView terms={this.state.terms} onEdit={this.editHandler()} />
+          ? <ReadView learningItems={this.state.learningItems} />
+          : <EditView learningItems={this.state.learningItems} onEdit={this.editHandler()} />
         }
       </div>
     );
@@ -71,8 +71,8 @@ export default class SortingTaskNode extends React.Component<IProps, IState> {
    * `EditView` subcomponent.
    */
   protected editHandler() {
-    return (terms: ITermsList) => {
-      this.setState({ terms }, this.persistState);
+    return (learningItems: ILearningItemsList) => {
+      this.setState({ learningItems }, this.persistState);
     };
   }
 
