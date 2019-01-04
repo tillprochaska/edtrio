@@ -8,16 +8,16 @@ interface IProps {
 export default class ReadView extends React.PureComponent<IProps> {
 
   public render() {
-    const terms = this.props.learningItems.map((term, index) => {
+    const learningItems = this.props.learningItems.map((learningItem, index) => {
       return (
         <React.Fragment key={index}>
-          <dt>{term.term}</dt>
-          <dd>{term.description}</dd>
+          <dt>{learningItem.term}</dt>
+          <dd>{learningItem.description}</dd>
         </React.Fragment>
       );
     });
 
-    return <dl>{terms}</dl>;
+    return <dl>{learningItems}</dl>;
   }
 
 }
