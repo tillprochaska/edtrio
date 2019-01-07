@@ -2,5 +2,8 @@
 	"version": 1,
 	"type": "static",
 	"name": "edtrio-sorting-task",
-	"alias": "edtrio-sorting-task.now.sh"
+	"alias": "edtrio-sorting-task.now.sh",
+	"env": {
+		"NODE_ENV": "production"
+	}
 }
