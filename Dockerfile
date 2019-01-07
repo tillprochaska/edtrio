@@ -12,5 +12,5 @@ RUN npm install
 COPY . .
 
 # Build the app and move the resulting build to the `/public` directory
-RUN npm run build
+RUN NODE_ENV=development npm run build
 RUN mv ./build /public
