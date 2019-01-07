@@ -1,0 +1,29 @@
+.learningItems{
+  table-layout:fixed;
+}
+
+.learningItems th:first-of-type{
+  width: 25%;
+}
+.learningItems th:last-of-type{
+  width: 75%;
+}
+
+.learningItems td{
+  padding: 0;
+}
+.learningItems input{
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s linear;
+  &:hover{
+    border-bottom-color: #bbb;
+  }
+  &:focus{
+    outline: none;
+    border-bottom-color: #333;
+  }
+}
