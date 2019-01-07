@@ -1,6 +1,11 @@
 {
 	"version": 1,
 	"type": "static",
-    "name": "edtrio-sorting-task",
-    "alias": "edtrio-sorting-task.now.sh"
+	"name": "edtrio-sorting-task",
+	"alias": "edtrio-sorting-task.now.sh",
+	"build": {
+		"env": {
+			"NODE_ENV": "development"
+		}
+	}
 }
