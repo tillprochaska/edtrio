@@ -4,6 +4,6 @@
 	"name": "edtrio-sorting-task",
 	"alias": "edtrio-sorting-task.now.sh",
 	"env": {
-		"NODE_ENV": "production"
+		"NODE_ENV": "development"
 	}
 }
