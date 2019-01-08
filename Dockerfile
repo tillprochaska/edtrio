@@ -12,5 +12,6 @@ RUN npm install
 COPY . .
 
 # Build the app and move the resulting build to the `/public` directory
+RUN REACT_APP_SHOW_PREVIEW_BUTTON=TRUE
 RUN REACT_APP_ENV=development npm run build
 RUN mv ./build /public
