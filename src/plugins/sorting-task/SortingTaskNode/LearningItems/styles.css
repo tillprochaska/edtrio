@@ -1,0 +1,11 @@
+.learning-items{
+  table-layout:fixed;
+}
+
+.learning-items .learning-items__term{
+  width: 25%;
+}
+
+.learning-items .learning-items__description{
+  width: 75%;
+}

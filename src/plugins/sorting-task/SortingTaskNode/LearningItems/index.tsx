@@ -2,7 +2,7 @@ import React from "react";
 import { ILearningItem, ILearningItems } from "../interfaces";
 import LearningItem from "./LearningItem";
 
-import './styles.scss';
+import './styles.css';
 
 interface IProps {
   learningItems: ILearningItems,
@@ -26,8 +26,8 @@ export default class LearningItems extends React.PureComponent<IProps> {
       <table className="learningItems">
         <thead>
           <tr>
-            <th>Begriff</th>
-            <th>Erklärung</th>
+            <th className="learning-items__term">Begriff</th>
+            <th className="learning-items__description">Erklärung</th>
           </tr>
         </thead>
         <tbody>

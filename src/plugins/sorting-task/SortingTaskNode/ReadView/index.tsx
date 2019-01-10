@@ -15,23 +15,23 @@ export default class ReadView extends React.PureComponent<IProps> {
     .map((learningItem, index) => {
       return (
         <React.Fragment key={index}>
-          <div className="flip-card">
-            <div className="flip-card-inner">
-              <dt className="flip-card-front flip-card-content">
-                <h2 className="flip-card-title">Kannst du diesen Begriff erklären?</h2>
-                <p>{learningItem.term}</p>
-              </dt>
-              <dd className="flip-card-back flip-card-content">
-                <h2 className="flip-card-title">Erklärung:</h2>
-                <p>{learningItem.description}</p>
-              </dd>
+          <li className="flip-card">
+            <div className="flip-card__inner">
+              <div className="flip-card__front flip-card__content">
+                <h2 className="flip-card__title">Kannst du diesen Begriff erklären?</h2>
+                <p className="flip-card__text">{learningItem.term}</p>
+              </div>
+              <div className="flip-card__back flip-card__content">
+                <h2 className="flip-card__title">Erklärung:</h2>
+                <p className="flip-card__text">{learningItem.description}</p>
+              </div>
             </div>
-          </div>
+          </li>
         </React.Fragment>
       );
     });
 
-    return <dl className="learning-items">{learningItems}</dl>;
+    return <ol className="learning-items">{learningItems}</ol>;
   }
 
 }

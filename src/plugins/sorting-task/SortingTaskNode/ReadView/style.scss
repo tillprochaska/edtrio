@@ -1,79 +1,75 @@
 .learning-items{
   padding: 40px; /* padding to prevent overflow during animation*/
-
-  --border-width: 2px;
-  --border-radius: 6px;
+}
+.content ol.learning-items {
+  list-style-type: none;
 }
 
 /* inspiration for card-flip animation: https://www.w3schools.com/howto/howto_css_flip_card.asp */
-/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {
+  --border-width: 0.125rem; // 2px on 16px font-size
+  --border-radius: 0.375rem; // 6px on 16px font size
+
   background-color: transparent;
   width: 100%;
-  max-width: 300px;
+  max-width: 20rem;
   height: 50vh;
-  max-height: 400px;
+  max-height: 25rem;
   margin: 0 auto;
   perspective: 1000px;
 }
-
-/* This container is needed to position the front and back side */
-.flip-card-inner {
+.flip-card__inner {
   position: relative;
   width: 100%;
   height: 100%;
-  text-align: center;
   transition: transform 0.8s;
   transform-style: preserve-3d;
   border: var(--border-width) solid #333;
   border-radius: var(--border-radius);
 }
 
-/* Do an horizontal flip when you move the mouse over the flip box container */
-/* TODO replace :hover with .flipped or .active class and toggle the class with js on click */
-.flip-card:hover .flip-card-inner {
+
+/* TODO replace :hover with flip-card--is-flipped class and toggle the class with js on click */
+/* Flip the card */
+.flip-card:hover > .flip-card__inner,
+.flip-card--is-flipped > .flip-card__inner {
   transform: rotateY(180deg);
 }
 
 /* Position the front and back side */
-.flip-card-content {
+.flip-card__content {
   position: absolute;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  margin: 0 !important; /* "!important" to reset all margins applied by default to dt & dd */
   backface-visibility: hidden;
   border-radius: calc(var(--border-radius) - var(--border-width));
   /* center the content */
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  text-align: center;
 
+  padding: .5rem;
   background-color: #fff;
   color: #333;
-
-  .flip-card-title{
-    margin: 1em 0;
-    font-size: 1.2em;
-  }
-
-  p{
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
+}
+.flip-card__title{
+  margin-top: 1em;
+  text-align: center;
+}
+.flip-card__text{
+  flex: 1;
+  /* center content in x & y direction */
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 
-/* Style the front side (fallback if image is missing) */
-.flip-card-front {
-  /* custom styling for front side */
+.flip-card__front {
   font-weight: bold;
 }
 
 /* Style the back side */
-.flip-card-back {
+.flip-card__back {
   transform: rotateY(180deg);
-  /* custom styling for back side */
 }

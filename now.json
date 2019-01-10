@@ -2,9 +2,5 @@
 	"version": 1,
 	"type": "static",
 	"name": "edtrio-sorting-task",
-	"alias": "edtrio-sorting-task.now.sh",
-	"env": {
-		"REACT_APP_SHOW_PREVIEW_BUTTON": "TRUE",
-		"REACT_APP_SHOW_DOCUMENT_VALUE": "FALSE"
-	}
+	"alias": "edtrio-sorting-task.now.sh"
 }
