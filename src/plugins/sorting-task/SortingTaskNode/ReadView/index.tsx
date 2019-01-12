@@ -31,7 +31,7 @@ export default class ReadView extends React.PureComponent<IProps> {
       );
     });
 
-    return <ol className="learning-items">{learningItems}</ol>;
+    return <ol className="learning-items-cards">{learningItems}</ol>;
   }
 
 }
