@@ -1,7 +1,8 @@
-.learning-items .learning-items__cell{
-  padding: 0;
-
-  & .learning-items__cell-input{
+.learning-items {
+  &__cell{
+    padding: 0;
+  }
+  &__cell-input{
     box-sizing: border-box;
     width: 100%;
     padding: .5em .75em;
