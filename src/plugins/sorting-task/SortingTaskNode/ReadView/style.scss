@@ -1,4 +1,30 @@
-.sorting-task-node ol.learning-items-cards {
-  padding:40px;
+.sorting-task-node ol.learning-items__cards {
+  --max-height: 25rem;
+  --wrapper-padding: 40px; // needed for flip animation
+  padding: var(--wrapper-padding);
   list-style-type: none;
+  position:relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 50vh;
+  max-height: calc(var(--max-height) + (2 * var(--wrapper-padding)));
+
+  .flip-card{
+    position: absolute;
+    top: var(--wrapper-padding);
+    left: 0;
+    right: 0;
+    visibility: hidden;
+    transition: transform .3s ease;
+
+    @for $i from 0 through 3 {
+      // todo change the selector to classes like .learning-items__stack-item--1, .learning-items__stack-item--2, ...
+      &:nth-of-type( #{$i + 1} ) {
+        visibility: visible;
+        $offset: $i * 4px;
+        z-index: -$i;
+        transform: translate($offset, $offset);
+      }
+    }
+  }
 }
