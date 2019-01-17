@@ -63,7 +63,7 @@
   &:active, .flip-card--is-flipped {
 
     & .flip-card__inner {
-      transform: rotateY(180deg);
+      transform: rotateY(-180deg);
     }
   }
 }
