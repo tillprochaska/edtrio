@@ -2,11 +2,12 @@
   --max-height: 25rem;
   --wrapper-padding: 40px; // needed for flip animation
   padding: var(--wrapper-padding);
+  margin: 0;
   list-style-type: none;
   position:relative;
   box-sizing: border-box;
   width: 100%;
-  height: 50vh;
+  height: 100vh;
   max-height: calc(var(--max-height) + (2 * var(--wrapper-padding)));
 
   .flip-card{
