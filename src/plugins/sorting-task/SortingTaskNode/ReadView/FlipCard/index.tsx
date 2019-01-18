@@ -1,6 +1,8 @@
 import React from "react";
 import { ILearningItem } from "../../interfaces";
 
+import mdiconCheck from './mdicon-check.svg';
+import mdiconClose from './mdicon-close.svg';
 import "./style.scss";
 
 interface IProps {
@@ -33,22 +35,28 @@ export default class FlipCard extends React.Component<IProps, IState> {
 						<h2 className="flip-card__title">
 							Kannst du diesen Begriff erklären?
 						</h2>
-						<p className="flip-card__text">{this.props.learningItem.term}</p>
-						<button type="button" onClick={this.showSolution()}>
-							Auflösen
-						</button>
+						<p className="flip-card__text">
+							{this.props.learningItem.term}
+						</p>
+						<div className="flip-card__footer">
+							<button className="flip-card__button flip-card__button--flip" type="button" onClick={this.showSolution()}>
+								Erklärung anzeigen
+							</button>
+						</div>
 					</div>
 					<div className="flip-card__back flip-card__content">
-						<h2 className="flip-card__title">Erklärung:</h2>
+						<h2 className="flip-card__title">Richtig gewusst?</h2>
 						<p className="flip-card__text">
-							{this.props.learningItem.description}
+							<b>Erklärung:</b> {this.props.learningItem.description}
 						</p>
-						<button type="button" onClick={this.props.nextCard(true)}>
-							JA
-						</button>
-						<button type="button" onClick={this.props.nextCard(false)}>
-							NEIN
-						</button>
+						<div className="flip-card__footer">
+							<button className="flip-card__button flip-card__button--has-icon flip-card__button--not-known" type="button" onClick={this.props.nextCard(false)}>
+								<img className="md-icon" src={mdiconClose} alt="Nein, dass wusste ich leider nicht."/>
+							</button>
+							<button className="flip-card__button flip-card__button--has-icon flip-card__button--known" type="button" onClick={this.props.nextCard(true)}>
+								<img className="md-icon" src={mdiconCheck} alt="Ja, meine Erklärung war korrekt"/>
+							</button>
+						</div>
 					</div>
 				</div>
 			</li>
