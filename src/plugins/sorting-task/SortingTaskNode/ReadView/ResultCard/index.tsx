@@ -21,15 +21,14 @@ export default class ResultCard extends React.Component<IProps> {
 							{knownString}
 						</h2>
 						<div className="flip-card__text">
-							{this.props.unknownItemsCount?
+							{this.props.unknownItemsCount &&
 									<button
 										className="card__button card__button--outlined card__button--yellow"
 										type="button"
 										onClick={this.props.continue}
 									>
 										{this.props.unknownItemsCount} Begriffe wiederholen.
-									</button>
-							: ''}
+									</button>}
 					</div>
 						<div className="flip-card__footer">
 							<button className="card__button card__button" type="button" onClick={this.props.reset}>
@@ -40,11 +39,5 @@ export default class ResultCard extends React.Component<IProps> {
 				</div>
 			</li>
 		);
-	}
-
-	protected showSolution() {
-		return () => {
-			this.setState({ isFlipped: true });
-		}
 	}
 }

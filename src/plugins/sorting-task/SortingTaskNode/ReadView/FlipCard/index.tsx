@@ -39,7 +39,7 @@ export default class FlipCard extends React.Component<IProps, IState> {
 							{this.props.learningItem.term}
 						</p>
 						<div className="flip-card__footer">
-							<button className="card__button card__button--outlined" type="button" onClick={this.showSolution()}>
+							<button className="card__button card__button--outlined" type="button" onClick={this.flipCard()}>
 								Erklärung anzeigen
 							</button>
 						</div>
@@ -63,7 +63,7 @@ export default class FlipCard extends React.Component<IProps, IState> {
 		);
 	}
 
-	protected showSolution() {
+	protected flipCard() {
 		return () => {
 			this.setState({ isFlipped: true });
 		}

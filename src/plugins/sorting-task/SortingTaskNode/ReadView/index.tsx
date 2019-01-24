@@ -37,6 +37,8 @@ export default class ReadView extends React.Component<IProps, IState> {
 
     const visibleLearningItems = learningItems.slice(currentCardIndex);
     const learningItemNodes = visibleLearningItems.map((learningItem, index) => {
+      if(learningItem.isSolved){ return null; }
+
       return (
         <FlipCard
           key={currentCardIndex+index}
