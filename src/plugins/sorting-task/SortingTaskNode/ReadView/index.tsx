@@ -1,5 +1,5 @@
 import React from "react";
-import { ILearningItem, ILearningItems, ILearningItemsWithKnownState } from "../interfaces";
+import { ILearningItems, ILearningItemsWithKnownState } from "../interfaces";
 import FlipCard from "./FlipCard";
 import ResultCard from "./ResultCard";
 
@@ -10,31 +10,52 @@ interface IProps {
 };
 
 interface IState {
-	learningItems: ILearningItemsWithKnownState,
+  learningItems: ILearningItemsWithKnownState,
+  currentCardIndex: number
 }
 
 export default class ReadView extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    this.state = { learningItems: this.props.learningItems.filter((learningItem: ILearningItem) => (learningItem.term && learningItem.description)).map((learningItem: ILearningItem) => ({...learningItem, isSolved: false, wasViewed: false})) }
+
+    const learningItems = this.props.learningItems
+      .filter(learningItem => learningItem.term && learningItem.description)
+      .map(learningItem => ({...learningItem, isSolved: false, wasViewed: false}))
+
+    this.state = {
+      learningItems,
+      currentCardIndex: 0
+    }
   }
 
   public render() {
-    const unknownItemsCount = this.state.learningItems.filter(item => !item.isSolved).length;
-    const learningItems = this.state.learningItems.map((learningItem, index) => {
-      return (!learningItem.isSolved && !learningItem.wasViewed) ?
-        (
-          <FlipCard key={index} learningItem={learningItem} nextCard={this.nextCard(index)} />
-        )
-      :
-        <React.Fragment key={index}/>
+
+    const {learningItems, currentCardIndex} = this.state;
+
+    const unknownItemsCount = learningItems.filter(item => !item.isSolved).length;
+
+    const visibleLearningItems = learningItems.slice(currentCardIndex);
+    const learningItemNodes = visibleLearningItems.map((learningItem, index) => {
+      return (
+        <FlipCard
+          key={currentCardIndex+index}
+          learningItem={learningItem}
+          nextCard={this.nextCard(currentCardIndex + index)}
+        />
+      )
     });
 
-    return <ol className="learning-items__cards">
-      {learningItems}
-      <ResultCard unknownItemsCount={unknownItemsCount} continue={this.continue()} reset={this.reset()} />
-      </ol>;
+    return (
+      <ol className="learning-items__cards">
+        {learningItemNodes}
+        <ResultCard
+          unknownItemsCount={unknownItemsCount}
+          continue={this.continue()}
+          reset={this.reset()}
+        />
+      </ol>
+    );
   }
 
   protected nextCard(key: number) {
@@ -44,24 +65,29 @@ export default class ReadView extends React.Component<IProps, IState> {
         learningItems[key] = {
           ...learningItems[key],
           isSolved: answerKnown,
-          wasViewed: true
         };
-        this.setState( { learningItems } );
+
+        this.setState( {
+          learningItems,
+          currentCardIndex: this.state.currentCardIndex + 1
+        } );
       }
     }
   }
 
   protected continue() {
     return () => {
-      const learningItems = this.state.learningItems.map(learningItem => ({...learningItem, wasViewed: false}));
-      this.setState( { learningItems } );
+      this.setState( { currentCardIndex: 0 } );
     }
   }
 
   protected reset() {
     return () => {
-      const learningItems = this.state.learningItems.map(learningItem => ({...learningItem, wasViewed: false, isSolved: false}));
-      this.setState( { learningItems } );
+      const learningItems = this.state.learningItems.map(learningItem => ({...learningItem, isSolved: false}));
+      this.setState( {
+        learningItems,
+        currentCardIndex: 0
+      } );
     }
   }
 }
