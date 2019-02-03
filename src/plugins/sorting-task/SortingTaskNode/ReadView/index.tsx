@@ -35,15 +35,26 @@ export default class ReadView extends React.Component<IProps, IState> {
 
     const unknownItemsCount = learningItems.filter(item => !item.isSolved).length;
 
-    const visibleLearningItems = learningItems.slice(currentCardIndex);
-    const learningItemNodes = visibleLearningItems.map((learningItem, index) => {
-      if(learningItem.isSolved){ return null; }
-
+    let displayedCards = 0;
+    const learningItemNodes = learningItems.map((learningItem, index) => {
+      if(currentCardIndex !== 0 && index === currentCardIndex - 1){
+        return (<FlipCard
+          key={currentCardIndex - 1}
+          learningItem={learningItems[currentCardIndex - 1]}
+          className={learningItems[currentCardIndex - 1].isSolved ? "swiped swiped--known" : " swiped swiped--unknown "}
+          nextCard={this.nextCard(currentCardIndex - 1)}
+        />)
+      }
+      if(learningItem.isSolved || index < currentCardIndex){
+        return null;
+      }
+      displayedCards += 1;
       return (
         <FlipCard
-          key={currentCardIndex+index}
+          key={index}
           learningItem={learningItem}
-          nextCard={this.nextCard(currentCardIndex + index)}
+          nextCard={this.nextCard(index)}
+          className={`card-${displayedCards}`}
         />
       )
     });

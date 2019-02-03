@@ -8,6 +8,7 @@ import "./style.scss";
 interface IProps {
 	learningItem: ILearningItem;
 	nextCard: (answerKnown: boolean) => () => void,
+	className: string
 }
 
 interface IState {
@@ -25,7 +26,7 @@ export default class FlipCard extends React.Component<IProps, IState> {
 
 	public render() {
 		return (
-			<li className="flip-card card__wrapper">
+			<li className={"flip-card card__wrapper " + this.props.className}>
 				<div
 					className={`flip-card__inner card ${
 						this.state.isFlipped ? "flip-card--is-flipped" : ""

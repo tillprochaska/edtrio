@@ -9,6 +9,7 @@
   width: 100%;
   height: 100vh;
   max-height: calc(var(--max-height) + (2 * var(--wrapper-padding)));
+  overflow: hidden;
 
   .card__wrapper{
     --border-width: 0.125rem; // 2px on 16px font-size
@@ -78,16 +79,35 @@
     left: 0;
     right: 0;
     visibility: hidden;
-    transition: transform .3s ease;
+    //transition: transform .3s ease;
+    transition: transform .5s ease-in;
 
     @for $i from 0 through 3 {
       // todo change the selector to classes like .learning-items__stack-item--1, .learning-items__stack-item--2, ...
-      &:nth-of-type( #{$i + 1} ) {
+      &.card-#{$i + 1} {
+      //&:nth-of-type( #{$i + 1} ) {
         visibility: visible;
         $offset: $i * 4px;
-        z-index: -$i;
+        z-index: -($i - 1);
         transform: translate($offset, $offset);
       }
+    }
+    &:last-of-type:nth-of-type(2){
+      visibility: visible;
+    }
+  }
+
+  .swiped{
+    transition: transform .7s ease, opacity 0s ease-in .7s;
+    transform-origin: 50% 100vh;
+    visibility: visible;
+    z-index: 1;
+    opacity: 0;
+    &--known{
+      transform: rotate(90deg) !important;
+    }
+    &--unknown{
+      transform: rotate(-90deg) !important;
     }
   }
 }
