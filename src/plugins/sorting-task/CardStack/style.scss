@@ -9,7 +9,6 @@
     width: 100%;
     height: 100%;
     visibility: hidden;
-    //transition: .75s;
     transition: transform .75s, opacity .5s;
 }
 
@@ -23,10 +22,9 @@
     z-index: 5;
     visibility: visible;
     opacity: 0;
-    //transform: translate(0, -100%);
     // TODO: use (-70deg) for unknown items
     transform: rotate(70deg);
-    transform-origin: 50% 75vh;
+    transform-origin: 50% 100vh;
 }
 
 // What follows is a really hacky way to create
