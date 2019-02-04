@@ -53,12 +53,6 @@ export default class ReadView extends React.Component<IProps, IState> {
     const flashCards = this.renderFlashCards();
     const resultCard = this.renderResultCard();
 
-    // If the user has already seen the onboarding card
-    // make sure that the first card is not shown a gain.
-    /*const index = hasPassedOnboarding
-      ? Math.max(1, currentCardIndex)
-      : currentCardIndex;
-    */
     let index = currentCardIndex;
     if(firstRoundPassed){
       index += 1;
