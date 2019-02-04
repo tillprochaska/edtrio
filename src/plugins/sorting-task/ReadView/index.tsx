@@ -15,6 +15,7 @@ interface IState {
   currentCardIndex: number,
   isOnboardingCardFlipped: boolean,
   hasPassedOnboarding: boolean,
+  firstRoundPassed: boolean,
 }
 
 export default class ReadView extends React.Component<IProps, IState> {
@@ -31,7 +32,7 @@ export default class ReadView extends React.Component<IProps, IState> {
     const cards = items.map(learningItem => {
       return {
         learningItem,
-        isKnown: false,
+        isSolved: false,
         isFlipped: false,
       };
     });
@@ -41,22 +42,21 @@ export default class ReadView extends React.Component<IProps, IState> {
       currentCardIndex: 0,
       isOnboardingCardFlipped: false,
       hasPassedOnboarding: false,
+      firstRoundPassed: false,
     }
   }
 
   public render() {
-    const { currentCardIndex, hasPassedOnboarding } = this.state;
+    const { currentCardIndex, firstRoundPassed } = this.state;
 
     const onboardingCard = this.renderOnboardingCard();
     const flashCards = this.renderFlashCards();
     const resultCard = this.renderResultCard();
 
-    // If the user has already seen the onboarding card
-    // make sure that the first card is not shown a gain.
-    const index = !hasPassedOnboarding
-      ? currentCardIndex
-      : Math.max(1, currentCardIndex);
-
+    let index = currentCardIndex;
+    if(firstRoundPassed){
+      index += 1;
+    }
     return (
       <div className="st-read-view">
         <div className="st-read-view__cards">
@@ -87,7 +87,7 @@ export default class ReadView extends React.Component<IProps, IState> {
           onNotKnown={ this.notKnownHandler(index) }
         />
       );
-    }); 
+    });
   }
 
   protected renderOnboardingCard() {
@@ -112,7 +112,7 @@ export default class ReadView extends React.Component<IProps, IState> {
   protected renderResultCard() {
     const { cards } = this.state;
     const unknownCount = cards.reduce((total, card) => {
-      return card.isKnown ? total : total + 1;
+      return card.isSolved ? total : total + 1;
     }, 0);
 
     return (
@@ -129,11 +129,17 @@ export default class ReadView extends React.Component<IProps, IState> {
       return {
         ...card,
         isFlipped: false,
-        isKnown: false,
+        isSolved: false,
       };
     });
 
-    this.setState({ cards, currentCardIndex: 0 });
+    this.setState({ cards, firstRoundPassed: true }, () => {
+      // We need to make sure that `showFirstUnknownCard()`
+      // is executed AFTER resetting the cards. React
+      // doesn’t necessarily execute state updates in
+      // order.
+      this.showFirstUnknownCard();
+    });
   }
 
   protected continue() {
@@ -144,21 +150,25 @@ export default class ReadView extends React.Component<IProps, IState> {
       };
     });
 
-    this.setState({ cards });
-    this.showFirstUnknownCard();
+    this.setState({ cards, firstRoundPassed: true }, () => {
+      // We need to make sure that `showFirstUnknownCard()`
+      // is executed AFTER resetting the cards. React
+      // doesn’t necessarily execute state updates in
+      // order.
+      this.showFirstUnknownCard();
+    });
   }
 
   protected showNextUnknownCard() {
     const { cards, currentCardIndex } = this.state;
 
     let nextIndex = cards.findIndex((card, index) => {
-      return index > currentCardIndex && !card.isKnown;
+      return index > currentCardIndex && !card.isSolved;
     });
 
     if(nextIndex < 0) {
       nextIndex = currentCardIndex + 1;
     }
-
     this.setState({ currentCardIndex: nextIndex });
   }
 
@@ -185,7 +195,7 @@ export default class ReadView extends React.Component<IProps, IState> {
     const { cards } = this.state;
 
     return () => {
-      cards[index].isKnown = true;
+      cards[index].isSolved = true;
       this.setState({ cards });
       this.showNextUnknownCard();
     };
