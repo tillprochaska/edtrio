@@ -27,17 +27,17 @@ export default class ActionButtons extends React.PureComponent<IProps> {
         <p>{ prompt }</p>
 
         <ActionButton
+          theme="negative"
+          label={ cancelLabel }
+          onClick={ onCancel }
+        />
+
+        <ActionButton
           theme="positive"
           label={ confirmLabel }
           onClick={ onConfirm }
         />
 
-        <ActionButton
-          theme="negative"
-          label={ cancelLabel }
-          onClick={ onCancel }
-        />
-        
       </div>
     );
   }
