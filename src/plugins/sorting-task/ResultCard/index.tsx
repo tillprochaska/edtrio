@@ -31,6 +31,13 @@ export default class ResultCard extends React.PureComponent<IProps> {
             { message }
           </h2>
 
+          <Button
+            theme={ unknownCount <= 0 ? "primary" : "text"}
+            onClick={ onReset }
+          >
+            Von vorne beginnen
+          </Button>
+
           { unknownCount <= 0 ? null :
             <Button
               theme="primary"
@@ -40,12 +47,6 @@ export default class ResultCard extends React.PureComponent<IProps> {
             </Button>
           }
 
-          <Button
-            theme={ unknownCount <= 0 ? "primary" : "text"}
-            onClick={ onReset }
-          >
-            Von vorne beginnen
-          </Button>
         </div>
 
       </Card>
