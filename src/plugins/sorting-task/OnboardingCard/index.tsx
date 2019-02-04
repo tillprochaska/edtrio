@@ -1,5 +1,4 @@
 import React from "react";
-import ActionButtons from "../ActionButtons";
 import Button from "../Button";
 import FlipCard from "../FlipCard";
 import "./style.scss";
@@ -25,13 +24,9 @@ export default class OnboardingCard extends React.PureComponent<IProps> {
           </p>
         </div>
 
-        <ActionButtons
-          prompt="Hast du das verstanden?"
-          confirmLabel="Ja, verstanden!"
-          cancelLabel="Nein, habe ich noch nicht verstanden!"
-          onConfirm={ onFlip }
-          onCancel={ onFlip }
-        />
+        <Button onClick={ onFlip }>
+          Weiter...
+        </Button>
 
       </div>
     );
@@ -43,12 +38,14 @@ export default class OnboardingCard extends React.PureComponent<IProps> {
           Auf der Rückseite der Karte findest du eine Musterlösung. Prüfe, ob du den Begriff richtig erklärt hast und klicke wieder auf einen der Buttons.
         </p>
 
+        {/*
         <Button
           theme="text"
           onClick={ () => alert('Not implemented!') }
         >
           Ausführliche Hilfe anzeigen
         </Button>
+        */}
 
         <Button onClick={ onStart }>
           Mit dem Lernen beginnen
