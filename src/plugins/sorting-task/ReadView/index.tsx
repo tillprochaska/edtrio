@@ -15,6 +15,7 @@ interface IState {
   currentCardIndex: number,
   isOnboardingCardFlipped: boolean,
   hasPassedOnboarding: boolean,
+  firstRoundPassed: boolean,
 }
 
 export default class ReadView extends React.Component<IProps, IState> {
@@ -41,11 +42,12 @@ export default class ReadView extends React.Component<IProps, IState> {
       currentCardIndex: 0,
       isOnboardingCardFlipped: false,
       hasPassedOnboarding: false,
+      firstRoundPassed: false,
     }
   }
 
   public render() {
-    const { currentCardIndex, hasPassedOnboarding } = this.state;
+    const { currentCardIndex, firstRoundPassed } = this.state;
 
     const onboardingCard = this.renderOnboardingCard();
     const flashCards = this.renderFlashCards();
@@ -53,10 +55,14 @@ export default class ReadView extends React.Component<IProps, IState> {
 
     // If the user has already seen the onboarding card
     // make sure that the first card is not shown a gain.
-    const index = !hasPassedOnboarding
-      ? currentCardIndex
-      : Math.max(1, currentCardIndex);
-
+    /*const index = hasPassedOnboarding
+      ? Math.max(1, currentCardIndex)
+      : currentCardIndex;
+    */
+    let index = currentCardIndex;
+    if(firstRoundPassed){
+      index += 1;
+    }
     return (
       <div className="st-read-view">
         <div className="st-read-view__cards">
@@ -87,7 +93,7 @@ export default class ReadView extends React.Component<IProps, IState> {
           onNotKnown={ this.notKnownHandler(index) }
         />
       );
-    }); 
+    });
   }
 
   protected renderOnboardingCard() {
@@ -133,7 +139,13 @@ export default class ReadView extends React.Component<IProps, IState> {
       };
     });
 
-    this.setState({ cards, currentCardIndex: 0 });
+    this.setState({ cards, firstRoundPassed: true }, () => {
+      // We need to make sure that `showFirstUnknownCard()`
+      // is executed AFTER resetting the cards. React
+      // doesn’t necessarily execute state updates in
+      // order.
+      this.showFirstUnknownCard();
+    });
   }
 
   protected continue() {
@@ -144,8 +156,13 @@ export default class ReadView extends React.Component<IProps, IState> {
       };
     });
 
-    this.setState({ cards });
-    this.showFirstUnknownCard();
+    this.setState({ cards, firstRoundPassed: true }, () => {
+      // We need to make sure that `showFirstUnknownCard()`
+      // is executed AFTER resetting the cards. React
+      // doesn’t necessarily execute state updates in
+      // order.
+      this.showFirstUnknownCard();
+    });
   }
 
   protected showNextUnknownCard() {
@@ -158,7 +175,6 @@ export default class ReadView extends React.Component<IProps, IState> {
     if(nextIndex < 0) {
       nextIndex = currentCardIndex + 1;
     }
-
     this.setState({ currentCardIndex: nextIndex });
   }
 
