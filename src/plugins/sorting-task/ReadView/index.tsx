@@ -157,26 +157,24 @@ export default class ReadView extends React.Component<IProps, IState> {
   protected showNextUnknownCard() {
     const { cards, currentCardStackIndex } = this.state;
 
+    // - 1 to remove the offset introduced by the OnboardingCard
     let nextIndex = cards.findIndex((card, index) => {
       return index > (currentCardStackIndex - 1) && !card.isSolved;
-    }) + 1;
-    /*
-    console.log("currentCardStackIndex, nextIndex");
-    console.log(currentCardStackIndex, nextIndex);
-    console.log("next card:", currentCardStackIndex, "=>", nextIndex);
-    */
-    if(nextIndex === 0) {
-      // console.log("cant find next card => we are done");
+    });
+
+    if(nextIndex === -1) {
+      // there doesn't exist a next LearningItemCard
+      // => set currentCardStackIndex to the (last) resultCard
       nextIndex = cards.length + 1;
-      // console.log("nextIndex", nextIndex);
-      // nextIndex = currentCardStackIndex + 1;
+    }else{
+      // + 1 to redo our offset correction
+      nextIndex += 1;
     }
     this.setState({ currentCardStackIndex: nextIndex });
   }
 
   protected showFirstUnknownCard() {
-    const firstCardIndex = this.state.hasPassedOnboarding ? 0 : -1;
-    this.setState({ currentCardStackIndex: firstCardIndex }, () => {
+    this.setState({ currentCardStackIndex: 0 }, () => {
       // We need to make sure that `showNextUnknownCard()`
       // is executed after resetting the index. React
       // doesn’t necessarily execute state updates in
