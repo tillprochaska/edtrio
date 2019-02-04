@@ -15,8 +15,7 @@ export default class CardStack extends React.PureComponent<IProps> {
 
       const classNames = [
         'st-card-stack__card',
-        (index < currentIndex) && 'st-card-stack__card--hidden',
-        (index >= currentIndex) && 'st-card-stack__card--visible',
+        (index < currentIndex) ? 'st-card-stack__card--hidden' : 'st-card-stack__card--visible',
       ];
 
       return (

@@ -12,10 +12,9 @@ interface IProps {
 
 interface IState {
   cards: IFlashCards,
-  currentCardIndex: number,
+  currentCardStackIndex: number,
   isOnboardingCardFlipped: boolean,
   hasPassedOnboarding: boolean,
-  firstRoundPassed: boolean,
 }
 
 export default class ReadView extends React.Component<IProps, IState> {
@@ -39,29 +38,24 @@ export default class ReadView extends React.Component<IProps, IState> {
 
     this.state = {
       cards,
-      currentCardIndex: 0,
+      currentCardStackIndex: 0,
       isOnboardingCardFlipped: false,
       hasPassedOnboarding: false,
-      firstRoundPassed: false,
     }
   }
 
   public render() {
-    const { currentCardIndex, firstRoundPassed } = this.state;
+    const { currentCardStackIndex } = this.state;
 
     const onboardingCard = this.renderOnboardingCard();
     const flashCards = this.renderFlashCards();
     const resultCard = this.renderResultCard();
 
-    let index = currentCardIndex;
-    if(firstRoundPassed){
-      index += 1;
-    }
     return (
       <div className="st-read-view">
         <div className="st-read-view__cards">
           <CardStack
-            currentIndex={ index }
+            currentIndex={ currentCardStackIndex }
             cards={[
               onboardingCard,
               ...flashCards,
@@ -96,8 +90,9 @@ export default class ReadView extends React.Component<IProps, IState> {
     };
 
     const onStart = () => {
-      this.setState({ hasPassedOnboarding: true });
-      this.showNextUnknownCard();
+      this.setState({ hasPassedOnboarding: true }, () => {
+        this.showNextUnknownCard();
+      });
     }
 
     return (
@@ -133,7 +128,7 @@ export default class ReadView extends React.Component<IProps, IState> {
       };
     });
 
-    this.setState({ cards, firstRoundPassed: true }, () => {
+    this.setState({ cards }, () => {
       // We need to make sure that `showFirstUnknownCard()`
       // is executed AFTER resetting the cards. React
       // doesn’t necessarily execute state updates in
@@ -150,7 +145,7 @@ export default class ReadView extends React.Component<IProps, IState> {
       };
     });
 
-    this.setState({ cards, firstRoundPassed: true }, () => {
+    this.setState({ cards }, () => {
       // We need to make sure that `showFirstUnknownCard()`
       // is executed AFTER resetting the cards. React
       // doesn’t necessarily execute state updates in
@@ -160,20 +155,28 @@ export default class ReadView extends React.Component<IProps, IState> {
   }
 
   protected showNextUnknownCard() {
-    const { cards, currentCardIndex } = this.state;
+    const { cards, currentCardStackIndex } = this.state;
 
     let nextIndex = cards.findIndex((card, index) => {
-      return index > currentCardIndex && !card.isSolved;
-    });
-
-    if(nextIndex < 0) {
-      nextIndex = currentCardIndex + 1;
+      return index > (currentCardStackIndex - 1) && !card.isSolved;
+    }) + 1;
+    /*
+    console.log("currentCardStackIndex, nextIndex");
+    console.log(currentCardStackIndex, nextIndex);
+    console.log("next card:", currentCardStackIndex, "=>", nextIndex);
+    */
+    if(nextIndex === 0) {
+      // console.log("cant find next card => we are done");
+      nextIndex = cards.length + 1;
+      // console.log("nextIndex", nextIndex);
+      // nextIndex = currentCardStackIndex + 1;
     }
-    this.setState({ currentCardIndex: nextIndex });
+    this.setState({ currentCardStackIndex: nextIndex });
   }
 
   protected showFirstUnknownCard() {
-    this.setState({ currentCardIndex: -1 }, () => {
+    const firstCardIndex = this.state.hasPassedOnboarding ? 0 : -1;
+    this.setState({ currentCardStackIndex: firstCardIndex }, () => {
       // We need to make sure that `showNextUnknownCard()`
       // is executed after resetting the index. React
       // doesn’t necessarily execute state updates in
@@ -196,8 +199,13 @@ export default class ReadView extends React.Component<IProps, IState> {
 
     return () => {
       cards[index].isSolved = true;
-      this.setState({ cards });
-      this.showNextUnknownCard();
+      this.setState({ cards }, () => {
+        // We need to make sure that `showNextUnknownCard()`
+        // is executed after setting the state. React
+        // doesn’t necessarily execute state updates in
+        // order.
+        this.showNextUnknownCard();
+      });
     };
   }
 
