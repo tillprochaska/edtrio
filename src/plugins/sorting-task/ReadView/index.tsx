@@ -31,7 +31,7 @@ export default class ReadView extends React.Component<IProps, IState> {
     const cards = items.map(learningItem => {
       return {
         learningItem,
-        isKnown: false,
+        isSolved: false,
         isFlipped: false,
       };
     });
@@ -112,7 +112,7 @@ export default class ReadView extends React.Component<IProps, IState> {
   protected renderResultCard() {
     const { cards } = this.state;
     const unknownCount = cards.reduce((total, card) => {
-      return card.isKnown ? total : total + 1;
+      return card.isSolved ? total : total + 1;
     }, 0);
 
     return (
@@ -129,7 +129,7 @@ export default class ReadView extends React.Component<IProps, IState> {
       return {
         ...card,
         isFlipped: false,
-        isKnown: false,
+        isSolved: false,
       };
     });
 
@@ -152,7 +152,7 @@ export default class ReadView extends React.Component<IProps, IState> {
     const { cards, currentCardIndex } = this.state;
 
     let nextIndex = cards.findIndex((card, index) => {
-      return index > currentCardIndex && !card.isKnown;
+      return index > currentCardIndex && !card.isSolved;
     });
 
     if(nextIndex < 0) {
@@ -185,7 +185,7 @@ export default class ReadView extends React.Component<IProps, IState> {
     const { cards } = this.state;
 
     return () => {
-      cards[index].isKnown = true;
+      cards[index].isSolved = true;
       this.setState({ cards });
       this.showNextUnknownCard();
     };

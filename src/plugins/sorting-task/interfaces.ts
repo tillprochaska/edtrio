@@ -7,6 +7,6 @@ export interface ILearningItem {
 export interface IFlashCards extends Array<IFlashCard> {};
 export interface IFlashCard {
   learningItem: ILearningItem,
-  isKnown: boolean,
+  isSolved: boolean,
   isFlipped: boolean,
 };
