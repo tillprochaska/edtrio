@@ -22,6 +22,7 @@ export default class CardStack extends React.PureComponent<IProps> {
         <div
           key={ index }
           className={ classNames.join(' ') }
+          aria-hidden={index !== currentIndex}
         >
           { card }
         </div>
